@@ -1,6 +1,6 @@
 package com.metazion.jgd;
 
-import com.metazion.jgd.net.TcpServer;
+import com.metazion.jm.net.TcpServer;
 
 public class AppServer {
 	
@@ -10,12 +10,18 @@ public class AppServer {
 		appServer.tick();
 	}
 	
-	private TcpServer<ServerSession> tcpServer = new TcpServer<ServerSession>(ServerSession.class);
+	private TcpServer tcpServer = new TcpServer();
+	
+	private LSClient lsClient = new LSClient();
 	
 	public void init() {
 		System.out.println("AppServer init...");
 		
-		tcpServer.addLocalPort(20001);
+		lsClient.setLocalPort(20001);
+		lsClient.setRelistenInterval(10);
+		lsClient.open();
+		
+		tcpServer.attach(lsClient);
 		tcpServer.listen();
 	}
 	

@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Common"/>
-	<classpathentry kind="lib" path="/Common/lib/netty-all-4.0.30.Final.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JMetazion"/>
+	<classpathentry kind="lib" path="/JMetazion/lib/netty-all-4.0.30.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

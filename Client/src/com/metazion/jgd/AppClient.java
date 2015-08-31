@@ -1,6 +1,6 @@
 package com.metazion.jgd;
 
-import com.metazion.jgd.net.TcpClient;
+import com.metazion.jm.net.TcpClient;
 
 public class AppClient {
 	
@@ -10,13 +10,19 @@ public class AppClient {
 		appClient.tick();
 	}
 	
-	private TcpClient<ClientSession> tcpClient = new TcpClient<ClientSession>(ClientSession.class);
+	private TcpClient tcpClient = new TcpClient();
+	
+	private CSServer csServer = new CSServer();
 	
 	public void init() {
 		System.out.println("AppClient init...");
 		
-		tcpClient.setRemoteAddress("127.0.0.1", 20001);
-		tcpClient.setReconnectInterval(5);
+		csServer.setRemoteHost("127.0.0.1");
+		csServer.setRemotePort(20001);
+		csServer.setReconnectInterval(10);
+		csServer.open();
+		
+		tcpClient.attach(csServer);
 		tcpClient.connect();
 	}
 	
