@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration status="off" monitorInterval="1800">
+    <properties>
+        <property name="LOG_HOME">log</property>
+        <property name="BACKUP_HOME">${LOG_HOME}/backup</property>
+        <property name="RUN_NAME">run</property>
+        <property name="ERROR_NAME">error</property>
+    </properties>
+	
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%file:%line] [%thread] - %msg %n" />
+        </Console>
+		
+        <RollingRandomAccessFile name="Run" fileName="${LOG_HOME}/${RUN_NAME}.log" filePattern="${BACKUP_HOME}/${RUN_NAME}.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%file:%line] [%thread] - %msg %n" />
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+			<Policies>
+                <TimeBasedTriggeringPolicy interval="12" modulate="true" />
+				<SizeBasedTriggeringPolicy size="32MB" />
+            </Policies>
+        </RollingRandomAccessFile>
+		
+        <RollingRandomAccessFile name="Error" fileName="${LOG_HOME}/${ERROR_NAME}.log" filePattern="${BACKUP_HOME}/${ERROR_NAME}.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%file:%line] [%thread] - %msg %n" />
+			<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="12" modulate="true" />
+				<SizeBasedTriggeringPolicy size="32MB" />
+            </Policies>
+        </RollingRandomAccessFile>
+    </appenders>
+	
+    <loggers>
+        <!-- Thirdparty Loggers -->
+        <logger name="org.jboss.netty" level="warn" />
+        <logger name="org.apache.http" level="warn" />     
+	
+        <!-- Root Logger -->
+        <root level="DEBUG" includeLocation="true">
+            <appender-ref ref="Console" />
+			<appender-ref ref="Run" />
+			<appender-ref ref="Error" />
+        </root>	
+    </loggers>
+</configuration>

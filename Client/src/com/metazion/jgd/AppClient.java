@@ -1,40 +1,59 @@
 package com.metazion.jgd;
 
-import com.metazion.jm.net.TcpClient;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.metazion.jgd.net.ContextMsg;
+import com.metazion.jgd.net.MessageProcessor;
+import com.metazion.jgd.net.TcpShortClient;
+import com.metazion.jgd.util.JgdLogger;
 
 public class AppClient {
-	
-	public static void main(String[] args) {
-		AppClient appClient = new AppClient();
-		appClient.init();
-		appClient.tick();
+
+	public static AppClient client = new AppClient();
+
+	public static void main(String[] args) throws Exception {
+		client.init();
+		client.loop();
 	}
-	
-	private TcpClient tcpClient = new TcpClient();
-	
-	private CSServer csServer = new CSServer();
-	
+
+	private Console console = new Console();
+
+	private ConcurrentLinkedQueue<ContextMsg> contextMsgQueue = new ConcurrentLinkedQueue<ContextMsg>();
+
+	public AppClient() {
+
+	}
+
 	public void init() {
-		System.out.println("AppClient init...");
-		
-		csServer.setRemoteHost("127.0.0.1");
-		csServer.setRemotePort(20001);
-		csServer.setReconnectInterval(10);
-		csServer.open();
-		
-		tcpClient.attach(csServer);
-		tcpClient.connect();
+		JgdLogger.getLogger().debug("Client init...");
+
+		TcpShortClient.start();
+
+		console.init();
 	}
-	
-	public void tick() {
-		System.out.println("AppClient tick...");
-		
+
+	public void loop() {
+		JgdLogger.getLogger().debug("Client loop...");
+
 		while (true) {
 			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
+				processContextMsg();
+
+				Thread.sleep(10);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public void pushContextMsg(ContextMsg contextMsg) {
+		contextMsgQueue.add(contextMsg);
+	}
+
+	private void processContextMsg() throws Exception {
+		while (!contextMsgQueue.isEmpty()) {
+			ContextMsg contextMsg = contextMsgQueue.poll();
+			MessageProcessor.process(contextMsg.ctx, contextMsg.msg);
 		}
 	}
 }
