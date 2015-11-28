@@ -5,8 +5,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import com.metazion.jgd.action.LogicAction;
 import com.metazion.jgd.action.RequestAction;
 import com.metazion.jgd.info.ServerConfig;
+import com.metazion.jgd.util.DbUtil;
 import com.metazion.jgd.util.JgdLogger;
-import com.metazion.jm.task.TaskManager;;
+import com.metazion.jm.task.TaskManager;
+import com.metazion.object.UserManager;;
 
 public class LogicService {
 
@@ -16,10 +18,17 @@ public class LogicService {
 	private ConcurrentLinkedQueue<LogicAction> logicActionQueue = new ConcurrentLinkedQueue<LogicAction>();
 	private TaskManager taskManager = new TaskManager();
 
+	private UserManager userManager = new UserManager(); // 用户
+
 	public boolean init() {
 		JgdLogger.getLogger().fatal("Logic service init...");
 
 		boolean result = ServerConfig.getInstance().load();
+		if (!result) {
+			return false;
+		}
+
+		result = DbUtil.init();
 		if (!result) {
 			return false;
 		}
@@ -63,6 +72,10 @@ public class LogicService {
 
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	public UserManager getUserManager() {
+		return userManager;
 	}
 
 	private void processRequestAction() {

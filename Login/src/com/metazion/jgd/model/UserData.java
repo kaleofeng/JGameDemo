@@ -17,15 +17,6 @@ public class UserData implements Serializable {
 	// 盐
 	public int salt = 0;
 
-	// 邮箱
-	public String email = "";
-
-	// 手机号
-	public String phone = "";
-
-	// 设备IMEI
-	public String imei = "";
-
 	// 注册时间
 	public long registerTime = 0;
 

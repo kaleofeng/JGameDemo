@@ -1,12 +1,15 @@
 package com.metazion.jgd.task;
 
+import com.metazion.jgd.AppLogin;
 import com.metazion.jgd.dao.DaoService;
+import com.metazion.jgd.dao.DbUser;
 import com.metazion.jgd.model.UserData;
 import com.metazion.jgd.protocal.cl.UserLoginCL;
 import com.metazion.jgd.protocal.cl.UserLoginLC;
 import com.metazion.jgd.util.JgdLogger;
 import com.metazion.jm.net.TransmitSession;
 import com.metazion.jm.task.Task;
+import com.metazion.object.User;
 
 public class TaskLoadUser extends Task {
 
@@ -17,8 +20,8 @@ public class TaskLoadUser extends Task {
 
 	private volatile UserData userDataOut = null;
 
-	public TaskLoadUser(TransmitSession session, UserLoginCL req) {
-		this.sessionIn = session;
+	public TaskLoadUser(TransmitSession sessionIn, UserLoginCL req) {
+		this.sessionIn = sessionIn;
 		this.reqIn = req;
 	}
 
@@ -36,9 +39,16 @@ public class TaskLoadUser extends Task {
 			do {
 				final String username = reqIn.username;
 
-				userDataOut = new UserData();
-				userDataOut.userId = 1;
-				userDataOut.username = username;
+				UserData userData = DbUser.getUserDataByName(username);
+
+				// 用户不存在
+				if (userData == null) {
+					setResult(UserLoginLC.ERROR_NOUSER);
+					JgdLogger.getLogger().error("Task load user execute: no data in db");
+					break;
+				}
+
+				userDataOut = userData;
 			} while (false);
 			decDesire();
 		});
@@ -71,19 +81,46 @@ public class TaskLoadUser extends Task {
 	}
 
 	private void succeedResponse() {
-		JgdLogger.getLogger().info("Task load user successful: seq[{}] result[{}] req username[{}] user id[{}]", seq,
-				result, reqIn.username, userDataOut.userId);
+		JgdLogger.getLogger().info("Task load user successful: seq[{}] result[{}] req username[{}] user id[{}]", seq, result, reqIn.username, userDataOut.userId);
+
+		// 检查密码
+		if (!reqIn.password.equals(userDataOut.password)) {
+			JgdLogger.getLogger().error("Task load user post failed: seq[{}] user[{}:{}] password wrong", seq, userDataOut.userId, userDataOut.username);
+			rspOut.result = UserLoginLC.ERROR_WRONGPWD;
+			sessionIn.send(rspOut);
+			return;
+		}
+
+		final int userId = userDataOut.userId;
+
+		// TODO: Generate Token
+		final String token = "THIS IS TOKEN";
+
+		User user = AppLogin.getLogicService().getUserManager().getUser(userId);
+		if (user == null) {
+			user = new User();
+		}
+
+		user.setUserData(userDataOut);
+		user.setToken(token);
+		AppLogin.getLogicService().getUserManager().putUserMapping(user);
+
+		// 记录上线时间
+		DaoService.execute(() -> {
+			userDataOut.lastLoginTime = System.currentTimeMillis();
+			DbUser.updateUserData(userDataOut);
+		});
+
+		JgdLogger.getLogger().info("Task load user post successful: seq[{}] user[{}:{}] token[{}]", seq, userDataOut.userId, userDataOut.username, token);
 
 		rspOut.result = (byte) result;
-		rspOut.userId = userDataOut.userId;
-		rspOut.token = "THIS IS TOKEN";
-
+		rspOut.userId = userId;
+		rspOut.token = token;
 		sessionIn.send(rspOut);
 	}
 
 	private void failResponse() {
-		JgdLogger.getLogger().info("Task load user failed: seq[{}] result[{}] req username[{}]", seq, result,
-				reqIn.username);
+		JgdLogger.getLogger().info("Task load user failed: seq[{}] result[{}] req username[{}]", seq, result, reqIn.username);
 
 		rspOut.result = (byte) result;
 		sessionIn.send(rspOut);

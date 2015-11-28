@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Table name="user" primaryKey="user_id" primaryField="userId">
+	<Column name="username" field="username" type="2" />
+	<Column name="password" field="password" type="2" />
+	<Column name="salt" field="salt" type="1" />
+	<Column name="reg_time" field="registerTime" type="3" />
+	<Column name="last_login_time" field="lastLoginTime" type="3" />
+</Table>
