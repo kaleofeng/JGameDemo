@@ -65,6 +65,14 @@ public class Console extends Thread {
 			ClientHelper.set(key, value);
 		});
 
+		functionMap.put("userregister", (String[] args) -> {
+			assert args.length >= 3;
+
+			final String username = args[1];
+			final String password = args[2];
+			ClientHelper.userRegister(username, password);
+		});
+
 		functionMap.put("userlogin", (String[] args) -> {
 			assert args.length >= 3;
 

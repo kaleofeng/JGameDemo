@@ -81,13 +81,11 @@ public class TaskLoadUser extends Task {
 	}
 
 	private void succeedResponse() {
-		JgdLogger.getLogger().info("Task load user successful: seq[{}] result[{}] req username[{}] user id[{}]", seq,
-				result, reqIn.username, userDataOut.id);
+		JgdLogger.getLogger().info("Task load user successful: seq[{}] result[{}] req username[{}] user id[{}]", seq, result, reqIn.username, userDataOut.id);
 
 		// 检查密码
 		if (!reqIn.password.equals(userDataOut.password)) {
-			JgdLogger.getLogger().error("Task load user post failed: seq[{}] user[{}:{}] password wrong", seq,
-					userDataOut.id, userDataOut.username);
+			JgdLogger.getLogger().error("Task load user post failed: seq[{}] user[{}:{}] password wrong", seq, userDataOut.id, userDataOut.username);
 			rspOut.result = UserLoginLC.ERROR_WRONGPWD;
 			sessionIn.send(rspOut);
 			return;
@@ -113,8 +111,7 @@ public class TaskLoadUser extends Task {
 			DbUser.updateUserData(userDataOut);
 		});
 
-		JgdLogger.getLogger().info("Task load user post successful: seq[{}] user[{}:{}] token[{}]", seq, userDataOut.id,
-				userDataOut.username, token);
+		JgdLogger.getLogger().info("Task load user post successful: seq[{}] user[{}:{}] token[{}]", seq, userDataOut.id, userDataOut.username, token);
 
 		rspOut.result = (byte) result;
 		rspOut.userId = userId;
@@ -123,8 +120,7 @@ public class TaskLoadUser extends Task {
 	}
 
 	private void failResponse() {
-		JgdLogger.getLogger().info("Task load user failed: seq[{}] result[{}] req username[{}]", seq, result,
-				reqIn.username);
+		JgdLogger.getLogger().info("Task load user failed: seq[{}] result[{}] req username[{}]", seq, result, reqIn.username);
 
 		rspOut.result = (byte) result;
 		sessionIn.send(rspOut);

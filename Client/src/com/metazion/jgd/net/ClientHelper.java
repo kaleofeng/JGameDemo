@@ -5,12 +5,13 @@ import java.io.ObjectOutputStream;
 
 import com.metazion.jgd.protocal.Message;
 import com.metazion.jgd.protocal.cl.UserLoginCL;
+import com.metazion.jgd.protocal.cl.UserRegisterCL;
 
 public class ClientHelper {
 
 	// 服务器地址
 	public static String serverHost = "127.0.0.1";
-	public static int serverPort = 40001;
+	public static int serverPort = 30001;
 
 	// 用户信息
 	public static int userId = 0;
@@ -32,6 +33,13 @@ public class ClientHelper {
 		} else if (key.equals("player")) {
 			playerId = Integer.parseInt(value);
 		}
+	}
+
+	public static void userRegister(String username, String password) {
+		UserRegisterCL request = new UserRegisterCL();
+		request.username = username;
+		request.password = password;
+		sendRequest(request);
 	}
 
 	public static void userLogin(String username, String password) {

@@ -70,8 +70,7 @@ public class TcpShortClient {
 		try {
 			channel = bootstrap.connect(host, port).sync().channel();
 		} catch (Exception e) {
-			JgdLogger.getLogger().info("Tcp short client create channel failed: host[{}] port[{}] exception[{}]", host,
-					port, e.toString());
+			JgdLogger.getLogger().info("Tcp short client create channel failed: host[{}] port[{}] exception[{}]", host, port, e.toString());
 			e.printStackTrace();
 			return null;
 		}

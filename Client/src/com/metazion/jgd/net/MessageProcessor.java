@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import com.metazion.jgd.protocal.Message;
 import com.metazion.jgd.protocal.Protocal;
 import com.metazion.jgd.protocal.cl.UserLoginLC;
+import com.metazion.jgd.protocal.cl.UserRegisterLC;
 import com.metazion.jgd.util.JgdLogger;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -39,11 +40,24 @@ public class MessageProcessor {
 		final int protocal = msg.procotal;
 
 		switch (protocal) {
+		case Protocal.PN_CL_USERREGISTER:
+			handleUserRegisterLC(msg);
+			break;
 		case Protocal.PN_CL_USERLOGIN:
 			handleUserLoginLC(msg);
 			break;
+
 		default:
 			break;
+		}
+	}
+
+	private static void handleUserRegisterLC(Message msg) {
+		UserRegisterLC rsp = (UserRegisterLC) msg;
+		JgdLogger.getLogger().debug("Message processor handle user register lc: result[{}]", rsp.result);
+
+		if (rsp.result == UserLoginLC.SUCCESS) {
+			// Nothing to do.
 		}
 	}
 

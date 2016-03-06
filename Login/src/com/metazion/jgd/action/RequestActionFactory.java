@@ -9,6 +9,9 @@ public class RequestActionFactory {
 		RequestAction requestAction = null;
 
 		switch (type) {
+		case Protocal.PN_CL_USERREGISTER:
+			requestAction = new RAUserRegisterCL();
+			break;
 		case Protocal.PN_CL_USERLOGIN:
 			requestAction = new RAUserLoginCL();
 			break;
