@@ -12,9 +12,9 @@ public class DbUser {
 
 	private static final Table<UserData> udTable = new Table<UserData>();
 
-	private static final String USERDATA_GETCOUNTBYNAME = "SELECT COUNT(`username`) FROM `user` WHERE `username`=?";
-	private static final String USERDATA_GETIDBYNAME = "SELECT `user_id` FROM `user` WHERE `username`=?";
-	private static final String USERDATA_GETBYNAME = "SELECT * FROM `user` WHERE `username`=?";
+	private static final String USERDATA_GETCOUNTBYNAME = "SELECT COUNT(`username`) FROM `tb_user` WHERE `username`=?";
+	private static final String USERDATA_GETIDBYNAME = "SELECT `id` FROM `tb_user` WHERE `username`=?";
+	private static final String USERDATA_GETBYNAME = "SELECT * FROM `tb_user` WHERE `username`=?";
 
 	static {
 		try {
@@ -31,7 +31,7 @@ public class DbUser {
 		Record<UserData> record = udTable.createRecord();
 
 		UserData userData = new UserData();
-		userData.userId = userId;
+		userData.id = userId;
 		record.setObject(userData);
 
 		PreparedStatement pst = null;
@@ -111,7 +111,7 @@ public class DbUser {
 		Record<UserData> record = udTable.createRecord();
 
 		UserData userData = new UserData();
-		userData.userId = userId;
+		userData.id = userId;
 		record.setObject(userData);
 
 		PreparedStatement pst = null;

@@ -12,7 +12,7 @@ public class UserManager {
 	}
 
 	public void putUserMapping(User user) {
-		int userId = user.getUserData().userId;
+		int userId = user.getUserData().id;
 		putUser(userId, user);
 
 		String username = user.getUserData().username;
@@ -20,7 +20,7 @@ public class UserManager {
 	}
 
 	public void removeUserMapping(User user) {
-		int userId = user.getUserData().userId;
+		int userId = user.getUserData().id;
 		removeUser(userId);
 
 		String username = user.getUserData().username;

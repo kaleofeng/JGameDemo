@@ -17,7 +17,7 @@
             <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%file:%line] [%thread] - %msg %n" />
             <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
 			<Policies>
-                <TimeBasedTriggeringPolicy interval="12" modulate="true" />
+                <TimeBasedTriggeringPolicy interval="24" modulate="true" />
 				<SizeBasedTriggeringPolicy size="32MB" />
             </Policies>
         </RollingRandomAccessFile>
@@ -26,7 +26,7 @@
             <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%file:%line] [%thread] - %msg %n" />
 			<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             <Policies>
-                <TimeBasedTriggeringPolicy interval="12" modulate="true" />
+                <TimeBasedTriggeringPolicy interval="24" modulate="true" />
 				<SizeBasedTriggeringPolicy size="32MB" />
             </Policies>
         </RollingRandomAccessFile>

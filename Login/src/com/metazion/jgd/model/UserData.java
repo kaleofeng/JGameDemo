@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class UserData implements Serializable {
 
 	// 用户ID
-	public int userId = 0;
+	public int id = 0;
 
 	// 用户名
 	public String username = "";
@@ -25,6 +25,6 @@ public class UserData implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%d:%s", userId, username);
+		return String.format("%d:%s", id, username);
 	}
 }
