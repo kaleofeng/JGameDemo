@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Table name="tb_player" primaryKey="id" primaryField="id">
+	<Column name="account" field="account" type="1" />
+	<Column name="nickname" field="nickname" type="2" />
+	<Column name="last_login_time" field="lastLoginTime" type="3" />
+	<Column name="last_logout_time" field="lastLogoutTime" type="3" />
+</Table>

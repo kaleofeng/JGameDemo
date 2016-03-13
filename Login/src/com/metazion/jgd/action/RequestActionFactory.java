@@ -16,6 +16,13 @@ public class RequestActionFactory {
 			requestAction = new RAUserLoginCL();
 			break;
 
+		case Protocal.PN_SL_SERVERJOIN:
+			requestAction = new RAServerJoinSL();
+			break;
+		case Protocal.PN_SL_SERVEREXIT:
+			requestAction = new RAServerExitSL();
+			break;
+
 		default:
 			requestAction = new RAUnknown();
 		}

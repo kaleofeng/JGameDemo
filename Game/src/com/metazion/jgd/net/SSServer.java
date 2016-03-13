@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.metazion.jgd.AppLogin;
+import com.metazion.jgd.AppGame;
 import com.metazion.jgd.action.RequestAction;
 import com.metazion.jgd.action.RequestActionFactory;
 import com.metazion.jgd.protocal.Message;
@@ -14,21 +14,21 @@ import com.metazion.jm.net.ServerSession;
 
 import io.netty.channel.Channel;
 
-public class SSClient extends ServerSession {
+public class SSServer extends ServerSession {
 
 	@Override
 	public void onActive() throws Exception {
-		JgdLogger.getLogger().debug("Server session from client active: {}", getChannelAddress(channel));
+		JgdLogger.getLogger().trace("Server session from server active: {}", getChannelAddress(channel));
 	}
 
 	@Override
 	public void onInactive() throws Exception {
-		JgdLogger.getLogger().debug("Server session from client inactive: {}", getChannelAddress(channel));
+		JgdLogger.getLogger().trace("Server session from server inactive: {}", getChannelAddress(channel));
 	}
 
 	@Override
 	public void onException(Throwable cause) throws Exception {
-		JgdLogger.getLogger().debug("Server session from client exception: {}", getChannelAddress(channel));
+		JgdLogger.getLogger().warn("Server session from server exception: {} cause[{}]", getChannelAddress(channel), cause.toString());
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class SSClient extends ServerSession {
 		RequestAction requestAction = RequestActionFactory.createRequestAction(protocal);
 		requestAction.setSession(this);
 		requestAction.setRequest(msg);
-		AppLogin.getLogicService().pushRequestAction(requestAction);
+		AppGame.getLogicService().pushRequestAction(requestAction);
 	}
 
 	private String getChannelAddress(Channel channel) {

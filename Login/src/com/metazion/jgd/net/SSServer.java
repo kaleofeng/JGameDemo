@@ -37,7 +37,7 @@ public class SSServer extends ServerSession {
 	}
 
 	@Override
-	public void onException() throws Exception {
+	public void onException(Throwable cause) throws Exception {
 		JgdLogger.getLogger().debug("Server session from server exception: {}", getChannelAddress(channel));
 	}
 
