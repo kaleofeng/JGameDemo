@@ -8,7 +8,8 @@ import com.metazion.jgd.info.SystemConfig;
 import com.metazion.jgd.util.DbUtil;
 import com.metazion.jgd.util.JgdLogger;
 import com.metazion.jm.task.TaskManager;
-import com.metazion.object.PlayerManager;;
+import com.metazion.object.PlayerManager;
+import com.metazion.object.UserManager;;
 
 public class LogicService {
 
@@ -17,7 +18,8 @@ public class LogicService {
 	private ConcurrentLinkedQueue<RequestAction> requestActionQueue = new ConcurrentLinkedQueue<RequestAction>();
 	private TaskManager taskManager = new TaskManager();
 
-	private PlayerManager playerManager = new PlayerManager(); // 用户
+	private UserManager userManager = new UserManager(); // 用户
+	private PlayerManager playerManager = new PlayerManager(); // 玩家
 
 	public boolean init() {
 		JgdLogger.getLogger().fatal("Logic service init...");
@@ -71,6 +73,10 @@ public class LogicService {
 
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	public UserManager getUserManager() {
+		return userManager;
 	}
 
 	public PlayerManager getPlayerManager() {

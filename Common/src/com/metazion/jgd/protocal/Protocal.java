@@ -2,17 +2,17 @@ package com.metazion.jgd.protocal;
 
 public class Protocal {
 
-	// client <--> login
-	public static final short PN_CL_USERREGISTER = 1000; // 注册帐号
-	public static final short PN_CL_USERLOGIN = 1001; // 登录验证
-	public static final short PN_CL_SELECTSERVER = 1002; // 选择服务器
-
 	// server <--> login
-	public static final short PN_SL_SERVERJOIN = 2001; // 服务器组加入
-	public static final short PN_SL_SERVEREXIT = 2002; // 服务器组退出
-	public static final short PN_SL_SERVERREPORT = 2003; // 服务器组汇报
+	public static final short PN_SL_SERVERJOIN = 1001; // 服务器组加入
+	public static final short PN_SL_SERVEREXIT = 1002; // 服务器组退出
+	public static final short PN_SL_SERVERREPORT = 1003; // 服务器组汇报
 
-	public static final short PN_LS_USERCANDIDATE = 2101; // 登录通知
+	public static final short PN_LS_USERCANDIDATE = 1101; // 登入通知
+
+	// client <--> login
+	public static final short PN_CL_USERREGISTER = 2000; // 注册帐号
+	public static final short PN_CL_USERLOGIN = 2001; // 登入验证
+	public static final short PN_CL_SELECTSERVER = 2002; // 选择服务器
 
 	// client <--> server
 	public static final short PN_CS_PLAYERENTER = 3000; // 进入游戏

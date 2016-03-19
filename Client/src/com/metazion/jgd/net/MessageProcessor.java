@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import com.metazion.jgd.def.ServerBean;
 import com.metazion.jgd.protocal.Message;
 import com.metazion.jgd.protocal.Protocal;
+import com.metazion.jgd.protocal.cl.SelectServerLC;
 import com.metazion.jgd.protocal.cl.UserLoginLC;
 import com.metazion.jgd.protocal.cl.UserRegisterLC;
 import com.metazion.jgd.util.JgdLogger;
@@ -46,6 +48,9 @@ public class MessageProcessor {
 		case Protocal.PN_CL_USERLOGIN:
 			handleUserLoginLC(msg);
 			break;
+		case Protocal.PN_CL_SELECTSERVER:
+			handleSelectServerLC(msg);
+			break;
 
 		default:
 			break;
@@ -66,7 +71,23 @@ public class MessageProcessor {
 		JgdLogger.getLogger().debug("Message processor handle user login lc: result[{}]", rsp.result);
 
 		if (rsp.result == UserLoginLC.SUCCESS) {
+			ClientHelper.userId = rsp.userId;
+			ClientHelper.token = rsp.token;
+
 			JgdLogger.getLogger().debug("user id[{}] token[{}]", rsp.userId, rsp.token);
+
+			for (ServerBean sb : rsp.serverList) {
+				JgdLogger.getLogger().debug("server id[{}] name[{}] status[{}]", sb.id, sb.name, sb.status);
+			}
+		}
+	}
+
+	private static void handleSelectServerLC(Message msg) {
+		SelectServerLC rsp = (SelectServerLC) msg;
+		JgdLogger.getLogger().debug("Message processor handle select server lc: result[{}]", rsp.result);
+
+		if (rsp.result == SelectServerLC.SUCCESS) {
+			JgdLogger.getLogger().debug("user id[{}] token[{}] host[{}] port[{}]", rsp.userId, rsp.token, rsp.host, rsp.port);
 		}
 	}
 }

@@ -80,5 +80,12 @@ public class Console extends Thread {
 			final String password = args[2];
 			ClientHelper.userLogin(username, password);
 		});
+
+		functionMap.put("selectserver", (String[] args) -> {
+			assert args.length >= 2;
+
+			final int serverId = Integer.parseInt(args[1]);
+			ClientHelper.selectServer(serverId);
+		});
 	}
 }

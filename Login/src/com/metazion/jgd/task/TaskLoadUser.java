@@ -1,8 +1,12 @@
 package com.metazion.jgd.task;
 
+import java.util.HashMap;
+
 import com.metazion.jgd.AppLogin;
 import com.metazion.jgd.dao.DaoService;
 import com.metazion.jgd.dao.DbUser;
+import com.metazion.jgd.info.ServerInfo;
+import com.metazion.jgd.info.ServerInfoManager;
 import com.metazion.jgd.model.UserData;
 import com.metazion.jgd.protocal.cl.UserLoginCL;
 import com.metazion.jgd.protocal.cl.UserLoginLC;
@@ -116,6 +120,12 @@ public class TaskLoadUser extends Task {
 		rspOut.result = (byte) result;
 		rspOut.userId = userId;
 		rspOut.token = token;
+
+		HashMap<Integer, ServerInfo> servers = ServerInfoManager.getInstance().getAllServerInfo();
+		for (ServerInfo serverInfo : servers.values()) {
+			rspOut.serverList.add(serverInfo.serverBean);
+		}
+
 		sessionIn.send(rspOut);
 	}
 

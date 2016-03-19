@@ -6,7 +6,7 @@ import com.metazion.jgd.protocal.Protocal;
 @SuppressWarnings("serial")
 public class SelectServerLC extends Message {
 
-	public static final byte ERROR_INVALID = -99; // 非法行为
+	public static final byte ERROR_ILLEGAL = -99; // 非法行为
 	public static final byte ERROR_CLOSED = -98; // 服务器未开启
 	public static final byte ERROR_FULL = -97; // 服务器爆满
 

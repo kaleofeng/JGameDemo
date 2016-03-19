@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 
 import com.metazion.jgd.protocal.Message;
+import com.metazion.jgd.protocal.cl.SelectServerCL;
 import com.metazion.jgd.protocal.cl.UserLoginCL;
 import com.metazion.jgd.protocal.cl.UserRegisterCL;
 
@@ -46,6 +47,14 @@ public class ClientHelper {
 		UserLoginCL request = new UserLoginCL();
 		request.username = username;
 		request.password = password;
+		sendRequest(request);
+	}
+
+	public static void selectServer(int serverId) {
+		SelectServerCL request = new SelectServerCL();
+		request.userId = userId;
+		request.token = token;
+		request.serverId = serverId;
 		sendRequest(request);
 	}
 

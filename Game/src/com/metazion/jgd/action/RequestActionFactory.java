@@ -1,5 +1,7 @@
 package com.metazion.jgd.action;
 
+import com.metazion.jgd.protocal.Protocal;
+
 public class RequestActionFactory {
 
 	public static RequestAction createRequestAction(int type) {
@@ -7,6 +9,10 @@ public class RequestActionFactory {
 		RequestAction requestAction = null;
 
 		switch (type) {
+		case Protocal.PN_LS_USERCANDIDATE:
+			requestAction = new RAUserCandidateLS();
+			break;
+
 		default:
 			requestAction = new RAUnknown();
 		}

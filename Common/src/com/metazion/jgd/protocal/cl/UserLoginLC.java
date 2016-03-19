@@ -12,7 +12,7 @@ public class UserLoginLC extends Message {
 	public static final byte ERROR_NOUSER = -99; // 账户不存在
 	public static final byte ERROR_BANNED = -98; // 账户在黑名单
 	public static final byte ERROR_WRONGPWD = -97; // 密码错误
-	public static final byte ERROR_ALREADYLOGIN = -96; // 已经登录
+	public static final byte ERROR_ALREADYLOGIN = -96; // 已经登入
 
 	public byte result = 0;
 	public int userId = 0;
